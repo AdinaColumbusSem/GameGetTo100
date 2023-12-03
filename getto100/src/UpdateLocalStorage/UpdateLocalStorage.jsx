@@ -5,7 +5,7 @@ function UpdateLocalStorage(props) {
     let Players = JSON.parse(localStorage.getItem('PlayersArr'));
     if (Players)
         Players.find(player => player.name == props.currentPlayer.name && player.email == props.currentPlayer.email) ?
-            props.setStateCurrentPlayers(cur => [...cur, { currentPlayer: player, currentNumber: Math.floor(Math.random()* (100)) }]) : addPlayerToGame()
+            props.setStateCurrentPlayers(cur => [...cur, { stateCurrentPlayers: player, currentNumber: Math.floor(Math.random() * (100)), steps: 0, active: true }]) : addPlayerToGame()
     else
         addPlayerToGame();
 
@@ -15,7 +15,7 @@ function UpdateLocalStorage(props) {
             Players = [];
         Players.push(props.currentPlayer);
         localStorage.setItem('PlayersArr', JSON.stringify(Players));
-        props.setStateCurrentPlayers(cur => [...cur, { currentPlayer: props.currentPlayer, currentNumber: Math.floor(Math.random()* (100))}])
+        props.setStateCurrentPlayers(cur => [...cur, { currentPlayer: props.currentPlayer, currentNumber: Math.floor(Math.random() * (100)), steps: 0, active: true }])
 
     }
 
