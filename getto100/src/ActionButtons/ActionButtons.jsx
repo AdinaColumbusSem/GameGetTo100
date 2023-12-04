@@ -13,27 +13,31 @@ function ActionButtons(props) {
                     break;
                 case '*2': newNumber = props.stateCurrentPlayers.currentNumber * 2;
                     break;
-                case '/2': newNumber = props.stateCurrentPlayers.currentNumber / 2;
+                case '/2': newNumber = Math.floor(props.stateCurrentPlayers.currentNumber / 2);
                     break;
             }
-            props.setStateCurrentPlayers([])
-            props.stateCurrentPlayers.map(player => {
-                (player.stateCurrentPlayers.name == props.currentPlayer.name && player.stateCurrentPlayers.email == props.currentPlayer.email ) ?
-                    props.setStateCurrentPlayers(cur => [...cur,  { currentPlayer: props.currentPlayer, currentNumber:newNumber, steps: steps+1, active: false }]) :
-                    props.setStateCurrentPlayers(cur => [...cur, player])})
-            }
-
+            updateActivePlayer(newNumber)
+        }
     }
 
-
-
-        const actionButtons = Actions.map((btn, i) =>
-            <button key={i} onClick={() => onClickBtn(btn)}>{btn}</button>);
-        return (
-            <>
-                {actionButtons}
-            </>
-        );
+    function updateActivePlayer(newNumber) {
+        props.stateCurrentPlayers.currentNumber = newNumber;
+        props.stateCurrentPlayers.steps += 1;
+        props.stateCurrentPlayers.active = false;
+        props.setStateCurrentPlayers(cur => [...cur]);
+    
+        props.setStateActivePlayer((props.activePlayer + 1) % props.numberPlayers);
     }
 
-    export default ActionButtons;
+    const actionButtons = Actions.map((btn, i) =>
+        <button key={i} onClick={() => onClickBtn(btn)}>{btn}</button>);
+
+    return (
+        <>
+            {actionButtons}
+        </>
+    );
+}
+
+export default ActionButtons;
+

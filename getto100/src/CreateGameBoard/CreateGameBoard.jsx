@@ -7,7 +7,9 @@ function CreateGameBoard(props) {
             <h3>Hi {props.stateCurrentPlayers.currentPlayer.name}</h3>
             <h2>Number: {props.stateCurrentPlayers.currentNumber}</h2>
             <h3>Steps: {props.stateCurrentPlayers.steps}</h3>
-            <ActionButtons stateCurrentPlayers = {props.stateCurrentPlayers} setStateCurrentPlayers={props.setStateCurrentPlayers}/>
+            <ActionButtons stateCurrentPlayers={props.stateCurrentPlayers} setStateCurrentPlayers={props.setStateCurrentPlayers}
+                           activePlayer ={props.activePlayer}  setStateActivePlayer={props.setStateActivePlayer}
+                           numberPlayers={props.numberPlayers}/>
             <h4>{props.stateCurrentPlayers.currentPlayer.name}'s scores: </h4>
         </>
     );
