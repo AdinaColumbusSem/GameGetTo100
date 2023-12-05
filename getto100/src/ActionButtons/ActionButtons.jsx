@@ -1,6 +1,8 @@
 import React from "react";
 
 function ActionButtons(props) {
+
+
     const Actions = ['-1', '+1', '*2', "/2"]
 
     function onClickBtn(btn) {
@@ -24,6 +26,10 @@ function ActionButtons(props) {
         props.stateCurrentPlayers.currentNumber = newNumber;
         props.stateCurrentPlayers.steps += 1;
         props.stateCurrentPlayers.active = false;
+      
+        updateGamer(stateCurrentPlayers)
+
+
         props.setStateCurrentPlayers(cur => [...cur]);
     
         props.setStateActivePlayer((props.activePlayer + 1) % props.numberPlayers);
