@@ -5,12 +5,16 @@ function Game(props) {
     function SatartGame() {
         props.setStateGameActive(true);
         console.log(props.activePlayer)
+
+
         props.stateCurrentPlayers[props.activePlayer].active = true;
         props.setStateCurrentPlayers(cur => [...cur]);
     }
 
     if (props.gameActive) {
-        props.stateCurrentPlayers[props.activePlayer].active = true;
+        const newArray = [...props.stateCurrentPlayers];
+        newArray[props.activePlayer].active = true;
+        props.setStateCurrentPlayers(newArray);
     }
 
     return (

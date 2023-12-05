@@ -5,8 +5,10 @@ import UpdatePlayer from '../UpdatePlayer/UpdatePlayer'
 
 function Login(props) {
 
+    const { gameActive, addNewPlayer } = props;
+
     function AddPlayer() {
-        if (props.gameActive) {
+        if (gameActive) {
             alert("The Game started, can't adding players")
             return;
         }
@@ -17,7 +19,9 @@ function Login(props) {
         }
         else {
             let currentPlayer = { name: playerName, email: playerEmail, results: [] };
-            UpdatePlayer({ setStateCurrentPlayers: props.setStateCurrentPlayers, currentPlayer: currentPlayer })
+            addNewPlayer(currentPlayer);
+
+            // UpdatePlayer({ setStateCurrentPlayers: props.setStateCurrentPlayers, currentPlayer: currentPlayer })
         }
 
     }
