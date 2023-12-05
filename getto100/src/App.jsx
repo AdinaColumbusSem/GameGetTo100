@@ -4,41 +4,72 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Login from './Login/Login'
 import CreateGameBoard from './CreateGameBoard/CreateGameBoard'
-import Game from './Game/Game'
 
 function App() {
 
   const [currentPlayers, setCurrentPlayers] = useState([]);
   const [gameActive, setGameActive] = useState(false);
-  const [activePlayer, setActivePlayer] = useState(0);
+  const [activePlayerIndex, setActivePlayerIndex] = useState(0);
 
 
   function handlerNewPlayer(currentPlayer) {
     let Players = JSON.parse(localStorage.getItem('PlayersArr'));
-    if (Players)
-      Players.find(player => player.name == currentPlayer.name && player.email == currentPlayer.email) == undefined ?? Players.push(currentPlayer);
-    else
+    let findPlayer = Players ? Players.find(player => player.name == currentPlayer.name && player.email == currentPlayer.email) : undefined;
+    if (findPlayer == undefined) {
+      Players = Players ? Players : [];
       Players.push(currentPlayer);
+      localStorage.setItem('PlayersArr', JSON.stringify(Players));
+      setCurrentPlayers(cur => [...cur, { player: currentPlayer, number: Math.floor(Math.random() * (100)), steps: 0, active: false, results: [] }])
+    }
+    else
+      setCurrentPlayers(cur => [...cur, { player: currentPlayer, number: Math.floor(Math.random() * (100)), steps: 0, active: false, results: findPlayer.results }])
+  }
+
+  function handlerActivePlayer(newNumber) {
+    const newArray = [...currentPlayers];
+    newArray[activePlayerIndex] = { ...newArray[activePlayerIndex], number: newNumber, steps: newArray[activePlayerIndex].steps + 1, active: false }
+    const nextPlayerIndex = (activePlayerIndex + 1) % currentPlayers.length;
+    newArray[nextPlayerIndex] = { ...newArray[nextPlayerIndex], active: true }
+    setActivePlayerIndex(nextPlayerIndex);
+    setCurrentPlayers(newArray)
+
+  }
+
+  function SatartGame() {
+    if (!gameActive) {
+      setGameActive(true);
+      const newArray = [...currentPlayers];
+      newArray[0] = { ...newArray[0], active: true }
+      setCurrentPlayers(newArray)
+    }
+  }
+
+  function handlerWinButtons(btn) {
+    let score = currentPlayers[activePlayerIndex].steps + 1;
+    let Players = JSON.parse(localStorage.getItem('PlayersArr'));
+    Players.map(player => (player.name == currentPlayer.name && player.email == currentPlayer.email) ?
+      player.results.push(score) : player);
     localStorage.setItem('PlayersArr', JSON.stringify(Players));
-    setCurrentPlayers(cur => [...cur, { currentPlayer: currentPlayer, currentNumber: Math.floor(Math.random() * (100)), steps: 0, active: false }])
+    const newArray = [...activePlayerIndex];
+    switch (btn) {
+      case 'new Game':
+        newArray[activePlayerIndex] = { ...newArray[activePlayerIndex], number: Math.floor(Math.random() * (100)), steps: 0, active: false, results: newArray[activePlayerIndex].results.push(score) }
+        setActivePlayerIndex((activePlayerIndex + 1) % currentPlayers.length);
+        break;
+      case 'Quit':
+        newArray.splice(activePlayerIndex, 1);
+        break;
+    }
+    setCurrentPlayers(newArray)
   }
 
   let gameBoard = currentPlayers.map((player, i) =>
-    <CreateGameBoard key={i} stateCurrentPlayers={player} setStateCurrentPlayers={setCurrentPlayers}
-      activePlayer={activePlayer} setStateActivePlayer={setActivePlayer} numberPlayers={currentPlayers.length} updateGamer={(hh) => {
-        setStateCurrentPlayers(cur => [...cur]);
-
-        setStateActivePlayer((props.activePlayer + 1) % props.numberPlayers);
-      }}
-    />)
+    <CreateGameBoard key={i} CurrentPlayer={player} updateActivePlayer={handlerActivePlayer} updateWinner ={handlerWinButtons} />)
 
   return (
     <>
       <Login gameActive={gameActive} addNewPlayer={handlerNewPlayer} />
-
-      <Game stateCurrentPlayers={currentPlayers} setStateCurrentPlayers={setCurrentPlayers}
-        gameActive={gameActive} setStateGameActive={setGameActive}
-        activePlayer={activePlayer} />
+      <button onClick={SatartGame}>Start</button>
       {gameBoard}
     </>
   );

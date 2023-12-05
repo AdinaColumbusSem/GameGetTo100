@@ -1,11 +1,10 @@
 import React from "react";
 import CreateGameBoard from "../CreateGameBoard/CreateGameBoard"
-import UpdatePlayer from '../UpdatePlayer/UpdatePlayer'
 
 
 function Login(props) {
 
-    const { gameActive, addNewPlayer } = props;
+    const { gameActive , addNewPlayer } = props;
 
     function AddPlayer() {
         if (gameActive) {
@@ -14,16 +13,12 @@ function Login(props) {
         }
         let playerName = prompt("Please enter your name");
         let playerEmail = prompt("Please enter your email")
-        if (playerName == null || playerName == "" || playerEmail == null || playerEmail == "") {
+        if (playerName == null || playerName == "" || playerEmail == null || playerEmail == "") 
             alert("Invalid Player")
-        }
         else {
             let currentPlayer = { name: playerName, email: playerEmail, results: [] };
             addNewPlayer(currentPlayer);
-
-            // UpdatePlayer({ setStateCurrentPlayers: props.setStateCurrentPlayers, currentPlayer: currentPlayer })
         }
-
     }
 
     return (
