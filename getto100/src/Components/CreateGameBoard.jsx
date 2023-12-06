@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import './CreateGameBoard.css'
 
 function CreateGameBoard(props) {
 
@@ -8,6 +7,8 @@ function CreateGameBoard(props) {
 
     const { CurrentPlayer, updateActivePlayer, updateWinner } = props;
 
+    const Mstyle = CurrentPlayer.active ? {boxShadow:' rgb(235 201 24) 0.01px 1px 7px'} : { boxShadow: 'none'  };
+
     const Actions = ['-1', '+1', '*2', "/2"];
     const actionButtons = Actions.map((btn, i) =>
         <button key={i} style={styleActive} onClick={() => onClickActionBtn(btn)}>{btn}</button>);
@@ -15,6 +16,7 @@ function CreateGameBoard(props) {
     const winBtns = ['new Game', 'Quit'];
     const winButtons = winBtns.map((btn, i) =>
         <button key={i} style={styleWin} onClick={() => onClickWinBtn(btn)}>{btn}</button>);
+
 
     function onClickActionBtn(btn) {
         if (CurrentPlayer.active) {
@@ -42,16 +44,17 @@ function CreateGameBoard(props) {
         setStyleActive({ display: 'inline' });
         setStyleWin({ display: 'none' });
     }
-
+    
     return (
-        <>
+
+        <div style={Mstyle}>
             <h3>Hi {CurrentPlayer.player.name}</h3>
             <h2>Number: {CurrentPlayer.number}</h2>
             <h3>Steps: {CurrentPlayer.steps}</h3>
             {actionButtons}
             {winButtons}
             <h4>{CurrentPlayer.player.name}'s scores:{CurrentPlayer.player.results.map(result => result + ',')}</h4>
-        </>
+        </div>
 
     );
 }

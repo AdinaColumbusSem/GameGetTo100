@@ -1,6 +1,4 @@
 import React from "react";
-import CreateGameBoard from "../CreateGameBoard/CreateGameBoard"
-
 
 function Login(props) {
 
