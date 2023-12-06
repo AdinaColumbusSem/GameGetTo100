@@ -1,4 +1,5 @@
 import React from "react";
+import './game.css';
 
 function Login(props) {
 
@@ -21,7 +22,7 @@ function Login(props) {
 
     return (
         <>
-            <button onClick={AddPlayer}>Add player</button>
+            <button className='openBtn' onClick={AddPlayer}>Add player</button>
         </>
     );
 }

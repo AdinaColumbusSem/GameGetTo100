@@ -1,6 +1,7 @@
-import React ,{useState} from 'react';
+import React, { useState } from 'react';
 import Login from './Login'
 import CreateGameBoard from './CreateGameBoard';
+import './game.css';
 
 function Game() {
     const [currentPlayers, setCurrentPlayers] = useState([]);
@@ -22,16 +23,22 @@ function Game() {
 
     function handlerActivePlayer(newNumber) {
         const newArray = [...currentPlayers];
-        newArray[activePlayerIndex] = { ...newArray[activePlayerIndex], number: newNumber, steps: newArray[activePlayerIndex].steps + 1, active: false }
+        newArray[activePlayerIndex] = { ...newArray[activePlayerIndex], number: newNumber, steps: newArray[activePlayerIndex].steps + 1, active: true }
         const nextPlayerIndex = (activePlayerIndex + 1) % currentPlayers.length;
-        if (newNumber != 100)
+        if (newNumber != 100) {
+            newArray[activePlayerIndex] = { ...newArray[activePlayerIndex], active: false }
             newArray[nextPlayerIndex] = { ...newArray[nextPlayerIndex], active: true }
+        }
         setActivePlayerIndex(nextPlayerIndex);
         setCurrentPlayers(newArray)
     }
 
     function SatartGame() {
-        if (!gameActive) {
+        if(currentPlayers.length==0){
+            alert('There are no players, to start the game please login')
+            history.go(0);
+        }
+        else if (!gameActive) {
             setGameActive(true);
             const newArray = [...currentPlayers];
             newArray[0] = { ...newArray[0], active: true }
@@ -58,6 +65,7 @@ function Game() {
                     setActivePlayerIndex(activePlayerIndex - 1);
                 } else
                     newArray[activePlayerIndex] = { ...newArray[activePlayerIndex], active: true }
+                currentPlayers.length == 1 ? history.go(0) : '';
                 break;
         }
         setCurrentPlayers(newArray);
@@ -74,9 +82,14 @@ function Game() {
         <CreateGameBoard key={i} CurrentPlayer={player} updateActivePlayer={handlerActivePlayer} updateWinner={handlerWinButtons} />)
 
     return (<>
-        <Login gameActive={gameActive} addNewPlayer={handlerNewPlayer} />
-        <button onClick={SatartGame}>Start</button>
-        {gameBoard}
+        <h1>get to <br />1️⃣0️⃣0️⃣</h1>
+        <div className='openBtns'>
+            <Login gameActive={gameActive} addNewPlayer={handlerNewPlayer} />
+            <button className='openBtn' onClick={SatartGame}>Start</button>
+        </div>
+        <div className='allBoards'>
+            {gameBoard}
+        </div>
     </>);
 
 }
