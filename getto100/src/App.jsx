@@ -45,12 +45,13 @@ function App() {
   }
 
   function handlerWinButtons(btn) {
+    const newArray = [...currentPlayers];
     let score = currentPlayers[activePlayerIndex].steps + 1;
     let Players = JSON.parse(localStorage.getItem('PlayersArr'));
-    Players.map(player => (player.name == currentPlayer.name && player.email == currentPlayer.email) ?
+    Players.map(player => (player.name ==  newArray[activePlayerIndex].currentPlayer.name && player.email == newArray[activePlayerIndex].currentPlayer.email) ?
       player.results.push(score) : player);
     localStorage.setItem('PlayersArr', JSON.stringify(Players));
-    const newArray = [...activePlayerIndex];
+   
     switch (btn) {
       case 'new Game':
         newArray[activePlayerIndex] = { ...newArray[activePlayerIndex], number: Math.floor(Math.random() * (100)), steps: 0, active: false, results: newArray[activePlayerIndex].results.push(score) }

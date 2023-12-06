@@ -3,15 +3,18 @@ import './CreateGameBoard.css'
 
 function CreateGameBoard(props) {
 
+    const [styleActive, setStyleActive] = useState({ display: 'block' })
+    const [styleWin, setStyleWin] = useState({ display: 'none' })
+
     const { CurrentPlayer, updateActivePlayer, updateWinner } = props;
 
     const Actions = ['-1', '+1', '*2', "/2"];
     const actionButtons = Actions.map((btn, i) =>
-        <button key={i} onClick={() => onClickActionBtn(btn)}>{btn}</button>);
+        <button key={i} style={styleActive} onClick={() => onClickActionBtn(btn)}>{btn}</button>);
 
     const winBtns = ['new Game', 'Quit'];
     const winButtons = winBtns.map((btn, i) =>
-        <button key={i} onClick={() => onClickWinBtn(btn)}>{btn}</button>);
+        <button key={i} style={styleWin} class='winBtnsStyle' onClick={() => onClickWinBtn(btn)}>{btn}</button>);
 
     function onClickActionBtn(btn) {
         if (CurrentPlayer.active) {
@@ -31,10 +34,10 @@ function CreateGameBoard(props) {
     }
 
     function win() {
-        activeStyle = { display: 'none' };
-        winBtnsStyle = { display: 'block' }
+        setStyleActive({ display: 'none' });
+        setStyleWin({ display: 'block' });
     }
-    
+
     function onClickWinBtn(btn) {
         updateWinner(btn);
     }

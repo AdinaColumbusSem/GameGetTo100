@@ -1,3 +1,7 @@
-#u{
+.winBtnsStyle{
     display: none;
+}
+
+.activeStyle{
+    display: block;
 }
