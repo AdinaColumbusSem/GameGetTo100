@@ -3,7 +3,7 @@ import './CreateGameBoard.css'
 
 function CreateGameBoard(props) {
 
-    const [styleActive, setStyleActive] = useState({ display: 'block' })
+    const [styleActive, setStyleActive] = useState({ display: 'inline' })
     const [styleWin, setStyleWin] = useState({ display: 'none' })
 
     const { CurrentPlayer, updateActivePlayer, updateWinner } = props;
@@ -14,7 +14,7 @@ function CreateGameBoard(props) {
 
     const winBtns = ['new Game', 'Quit'];
     const winButtons = winBtns.map((btn, i) =>
-        <button key={i} style={styleWin} class='winBtnsStyle' onClick={() => onClickWinBtn(btn)}>{btn}</button>);
+        <button key={i} style={styleWin} onClick={() => onClickWinBtn(btn)}>{btn}</button>);
 
     function onClickActionBtn(btn) {
         if (CurrentPlayer.active) {
@@ -29,17 +29,18 @@ function CreateGameBoard(props) {
                 case '/2': newNumber = Math.floor(CurrentPlayer.number / 2);
                     break;
             }
-            newNumber != 100 ? updateActivePlayer(newNumber) : win();
+            updateActivePlayer(newNumber)
+            if (newNumber == 100) {
+                setStyleActive({ display: 'none' });
+                setStyleWin({ display: 'inline' });
+            }
         }
-    }
-
-    function win() {
-        setStyleActive({ display: 'none' });
-        setStyleWin({ display: 'block' });
     }
 
     function onClickWinBtn(btn) {
         updateWinner(btn);
+        setStyleActive({ display: 'inline' });
+        setStyleWin({ display: 'none' });
     }
 
     return (
@@ -49,9 +50,9 @@ function CreateGameBoard(props) {
             <h3>Steps: {CurrentPlayer.steps}</h3>
             {actionButtons}
             {winButtons}
-            <h4>{CurrentPlayer.player.name}'s scores: </h4>
-            {CurrentPlayer.results.map(result => result)}
+            <h4>{CurrentPlayer.player.name}'s scores:{CurrentPlayer.player.results.map(result => result + ',')}</h4>
         </>
+
     );
 }
 

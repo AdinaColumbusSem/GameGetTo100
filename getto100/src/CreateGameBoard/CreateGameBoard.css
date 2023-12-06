@@ -4,4 +4,6 @@
 
 .activeStyle{
     display: block;
+    border: 2px red solid;
+    border-style:solid ;
 }

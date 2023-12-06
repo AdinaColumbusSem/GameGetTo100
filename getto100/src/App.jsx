@@ -11,7 +11,6 @@ function App() {
   const [gameActive, setGameActive] = useState(false);
   const [activePlayerIndex, setActivePlayerIndex] = useState(0);
 
-
   function handlerNewPlayer(currentPlayer) {
     let Players = JSON.parse(localStorage.getItem('PlayersArr'));
     let findPlayer = Players ? Players.find(player => player.name == currentPlayer.name && player.email == currentPlayer.email) : undefined;
@@ -19,20 +18,20 @@ function App() {
       Players = Players ? Players : [];
       Players.push(currentPlayer);
       localStorage.setItem('PlayersArr', JSON.stringify(Players));
-      setCurrentPlayers(cur => [...cur, { player: currentPlayer, number: Math.floor(Math.random() * (100)), steps: 0, active: false, results: [] }])
+      setCurrentPlayers(cur => [...cur, { player: currentPlayer, number: Math.floor(Math.random() * (100)), steps: 0, active: false }])
     }
     else
-      setCurrentPlayers(cur => [...cur, { player: currentPlayer, number: Math.floor(Math.random() * (100)), steps: 0, active: false, results: findPlayer.results }])
+      setCurrentPlayers(cur => [...cur, { player: findPlayer, number: Math.floor(Math.random() * (100)), steps: 0, active: false }])
   }
 
   function handlerActivePlayer(newNumber) {
     const newArray = [...currentPlayers];
     newArray[activePlayerIndex] = { ...newArray[activePlayerIndex], number: newNumber, steps: newArray[activePlayerIndex].steps + 1, active: false }
     const nextPlayerIndex = (activePlayerIndex + 1) % currentPlayers.length;
-    newArray[nextPlayerIndex] = { ...newArray[nextPlayerIndex], active: true }
+    if (newNumber != 100)
+      newArray[nextPlayerIndex] = { ...newArray[nextPlayerIndex], active: true }
     setActivePlayerIndex(nextPlayerIndex);
     setCurrentPlayers(newArray)
-
   }
 
   function SatartGame() {
@@ -45,27 +44,38 @@ function App() {
   }
 
   function handlerWinButtons(btn) {
+    const curPlayerIndex = activePlayerIndex != 0 ? activePlayerIndex - 1 : currentPlayers.length - 1;
     const newArray = [...currentPlayers];
-    let score = currentPlayers[activePlayerIndex].steps + 1;
-    let Players = JSON.parse(localStorage.getItem('PlayersArr'));
-    Players.map(player => (player.name ==  newArray[activePlayerIndex].currentPlayer.name && player.email == newArray[activePlayerIndex].currentPlayer.email) ?
-      player.results.push(score) : player);
-    localStorage.setItem('PlayersArr', JSON.stringify(Players));
-   
+    let score = newArray[curPlayerIndex].steps;
+    updateLocalStorage(score, newArray[curPlayerIndex].player);
     switch (btn) {
       case 'new Game':
-        newArray[activePlayerIndex] = { ...newArray[activePlayerIndex], number: Math.floor(Math.random() * (100)), steps: 0, active: false, results: newArray[activePlayerIndex].results.push(score) }
-        setActivePlayerIndex((activePlayerIndex + 1) % currentPlayers.length);
+        let newPlayer = newArray[curPlayerIndex].player;
+        newPlayer = { name: newPlayer.name, email: newPlayer.email, results: [...newPlayer.results, score] }
+        newArray[curPlayerIndex] = { player: newPlayer, number: Math.floor(Math.random() * (100)), steps: 0, active: false }
+        newArray[activePlayerIndex] = { ...newArray[activePlayerIndex], active: true }
         break;
       case 'Quit':
-        newArray.splice(activePlayerIndex, 1);
+        newArray.splice(curPlayerIndex, 1);
+        if (activePlayerIndex != 0) {
+          newArray[activePlayerIndex - 1] = { ...newArray[activePlayerIndex - 1], active: true }
+          setActivePlayerIndex(activePlayerIndex - 1);
+        } else
+          newArray[activePlayerIndex] = { ...newArray[activePlayerIndex], active: true }
         break;
     }
-    setCurrentPlayers(newArray)
+    setCurrentPlayers(newArray);
+  }
+
+  function updateLocalStorage(score, curPlayer) {
+    let Players = JSON.parse(localStorage.getItem('PlayersArr'));
+    Players.map(player => (player.name == curPlayer.name && player.email == curPlayer.email) ?
+      player.results.push(score) : player);
+    localStorage.setItem('PlayersArr', JSON.stringify(Players));
   }
 
   let gameBoard = currentPlayers.map((player, i) =>
-    <CreateGameBoard key={i} CurrentPlayer={player} updateActivePlayer={handlerActivePlayer} updateWinner ={handlerWinButtons} />)
+    <CreateGameBoard key={i} CurrentPlayer={player} updateActivePlayer={handlerActivePlayer} updateWinner={handlerWinButtons} />)
 
   return (
     <>
