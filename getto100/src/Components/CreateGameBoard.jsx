@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import './game.css';
 function CreateGameBoard(props) {
 
-    const [styleActive, setStyleActive] = useState({ display: 'inline' })
+    const [styleActive, setStyleActive] = useState({ display: 'inline'  })
     const [styleWin, setStyleWin] = useState({ display: 'none' })
 
     const { CurrentPlayer, updateActivePlayer, updateWinner } = props;
 
-    const Mstyle = CurrentPlayer.active ? { boxShadow: ' rgb(0 166 237) 0.01px 1px 7px' } : { boxShadow: 'none' };
+    const Mstyle = CurrentPlayer.active ? { boxShadow: ' rgb(0 166 237) 0.01px 1px 7px' } : { boxShadow: 'none'};
 
     const Actions = ['-1', '+1', '*2', "/2"];
     const actionButtons = Actions.map((btn, i) =>
