@@ -1,6 +1,6 @@
-import React, { useState,useEffect  } from 'react';
-import Login from './Login'
-import CreateGameBoard from './CreateGameBoard';
+import React, { useState } from 'react';
+import Login from '../Login'
+import CreateGameBoard from '../CreateGameBoard';
 import './game.css';
 
 function Game() {
@@ -8,26 +8,27 @@ function Game() {
     const [gameActive, setGameActive] = useState(false);
     const [activePlayerIndex, setActivePlayerIndex] = useState(0);
     const [topPlayers, setTopPlayers] = useState([]);
-    console.log(topPlayers);
-    function settopPlayersFunc(player){
-        setTopPlayers(cur=>[...cur,player]);
-    }
-    function topPlayersfunc() {
+
+    function topPlayersFunc() {
         let Players = JSON.parse(localStorage.getItem('PlayersArr'));
+        setTopPlayers([]);
         for (let i = 0; i < 3; i++) {
-            let minPlayerIndex=minAverageScores(Players);
-            if( minPlayerIndex!=-1){
-                settopPlayersFunc(Players[minPlayerIndex]);
+            let minPlayerIndex = minAverageScores(Players);
+            if (minPlayerIndex != -1) {
+                setTopPlayersFunc(Players[minPlayerIndex]);
                 Players.splice(minPlayerIndex, 1);
             }
-           
         }
     }
 
+    function setTopPlayersFunc(player) {
+        setTopPlayers(cur => [...cur, player]);
+    }
+
     function minAverageScores(arr) {
-        let minPlayer={avg:Infinity,index:-1}
+        let minPlayer = { avg: Infinity, index: -1 }
         for (let i = 0; i < arr.length; i++) {
-            if (averageScores(arr[i].results)!=null &&averageScores(arr[i].results)<minPlayer.avg) {
+            if (averageScores(arr[i].results) != null && averageScores(arr[i].results) < minPlayer.avg) {
                 minPlayer.avg = averageScores(arr[i].results);
                 minPlayer.index = i;
             }
@@ -38,7 +39,7 @@ function Game() {
 
     function averageScores(arr) {
         let sum = 0;
-        if (arr!=undefined&&arr.length) {
+        if (arr != undefined && arr.length) {
             arr.map(element => {
                 sum += element;
             });
@@ -46,7 +47,6 @@ function Game() {
         }
         return null;
     }
-
 
     function handlerNewPlayer(currentPlayer) {
         let Players = JSON.parse(localStorage.getItem('PlayersArr'));
@@ -81,9 +81,9 @@ function Game() {
         else if (!gameActive) {
             setGameActive(true);
             const newArray = [...currentPlayers];
-            newArray[0] = { ...newArray[0], active: true }
-            topPlayersfunc();
-            setCurrentPlayers(newArray)
+            newArray[0] = { ...newArray[0], active: true };
+            topPlayersFunc();
+            setCurrentPlayers(newArray);
         }
     }
 
@@ -110,6 +110,7 @@ function Game() {
                 break;
         }
         setCurrentPlayers(newArray);
+        topPlayersFunc();
     }
 
     function updateLocalStorage(score, curPlayer) {
@@ -124,10 +125,12 @@ function Game() {
 
     return (<>
         <h1>get to <br />1️⃣0️⃣0️⃣</h1>
-        <h1>top players: {topPlayers.map(player=>(player.name+" "))}</h1>
         <div className='openBtns'>
             <Login gameActive={gameActive} addNewPlayer={handlerNewPlayer} />
             <button className='openBtn' onClick={SatartGame}>Start</button>
+        </div>
+        <div className = 'topPlayers'>
+            <h3>Top players: {topPlayers.map(player => (player.name + " "))}</h3>
         </div>
         <div className='allBoards'>
             {gameBoard}

@@ -1,5 +1,5 @@
 import React from "react";
-import './game.css';
+import './Game/Game.css';
 
 function Login(props) {
 

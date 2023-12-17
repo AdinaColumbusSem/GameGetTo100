@@ -1,21 +1,22 @@
 import React, { useState } from "react";
-import './game.css';
+import './Game/Game.css';
+
 function CreateGameBoard(props) {
 
-    const [styleActive, setStyleActive] = useState({ display: 'inline'  })
-    const [styleWin, setStyleWin] = useState({ display: 'none' })
+    const [styleActiveBtn, setStyleActiveBtn] = useState({ display: 'inline'  })
+    const [styleWinBtn, setStyleWinBtn] = useState({ display: 'none' })
 
     const { CurrentPlayer, updateActivePlayer, updateWinner } = props;
 
-    const Mstyle = CurrentPlayer.active ? { boxShadow: ' rgb(0 166 237) 0.01px 1px 7px' } : { boxShadow: 'none'};
+    const Mstyle = CurrentPlayer.active ? { boxShadow: ' rgb(0 166 237) 0.01px 2px 7px' } : { boxShadow: 'none'};
 
     const Actions = ['-1', '+1', '*2', "/2"];
     const actionButtons = Actions.map((btn, i) =>
-        <button key={i} style={styleActive} onClick={() => onClickActionBtn(btn)}>{btn}</button>);
+        <button key={i} style={styleActiveBtn} onClick={() => onClickActionBtn(btn)}>{btn}</button>);
 
     const winBtns = ['new Game', 'Quit'];
     const winButtons = winBtns.map((btn, i) =>
-        <button key={i} style={styleWin} onClick={() => onClickWinBtn(btn)}>{btn}</button>);
+        <button key={i} style={styleWinBtn} onClick={() => onClickWinBtn(btn)}>{btn}</button>);
 
 
     function onClickActionBtn(btn) {
@@ -33,16 +34,16 @@ function CreateGameBoard(props) {
             }
             updateActivePlayer(newNumber)
             if (newNumber == 100) {
-                setStyleActive({ display: 'none' });
-                setStyleWin({ display: 'inline' });
+                setStyleActiveBtn({ display: 'none' });
+                setStyleWinBtn({ display: 'inline' });
             }
         }
     }
 
     function onClickWinBtn(btn) {
         updateWinner(btn);
-        setStyleActive({ display: 'inline' });
-        setStyleWin({ display: 'none' });
+        setStyleActiveBtn({ display: 'inline' });
+        setStyleWinBtn({ display: 'none' });
     }
 
     return (
