@@ -1,6 +1,4 @@
 :root {
-
-  /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;*/
   line-height: 1.5;
   font-weight: 400;
   margin: 0;
@@ -38,7 +36,6 @@ h1 {
 }
 
 button {
-  /*border-radius: 8px;*/
   width: 40%;
   border: 1px solid rgb(0 166 237);
   padding: 0.6em 1.2em;
@@ -61,14 +58,6 @@ button:focus-visible {
 }
 
 
-
-
-/*
-.openBtn {
-  background-color: gold;
-  width: 100vw;
-}
-*/
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Login from '../Login'
 import CreateGameBoard from '../CreateGameBoard';
-import './game.css';
+import img from '../../IMG/getTo100.png';
+import './Game.css';
 
 function Game() {
     const [currentPlayers, setCurrentPlayers] = useState([]);
@@ -20,6 +21,7 @@ function Game() {
             }
         }
     }
+
 
     function setTopPlayersFunc(player) {
         setTopPlayers(cur => [...cur, player]);
@@ -82,8 +84,8 @@ function Game() {
             setGameActive(true);
             const newArray = [...currentPlayers];
             newArray[0] = { ...newArray[0], active: true };
-            topPlayersFunc();
             setCurrentPlayers(newArray);
+            topPlayersFunc();
         }
     }
 
@@ -122,16 +124,22 @@ function Game() {
 
     let gameBoard = currentPlayers.map((player, i) =>
         <CreateGameBoard key={i} CurrentPlayer={player} updateActivePlayer={handlerActivePlayer} updateWinner={handlerWinButtons} />)
-
     return (<>
-        <h1>get to <br />1️⃣0️⃣0️⃣</h1>
+        <div className='logoDiv' >
+            <img src={img} className='logo' />
+        </div>
+        {gameActive ? <h3 className='TopPlayers'>Top players: {topPlayers.map(player => (player.name + " "))}</h3> : ''}
         <div className='openBtns'>
-            <Login gameActive={gameActive} addNewPlayer={handlerNewPlayer} />
-            <button className='openBtn' onClick={SatartGame}>Start</button>
+        {gameActive ? <button className='openBtn' onClick={()=>history.go(0)}>new game</button> :
+            <div>
+                <Login gameActive={gameActive} addNewPlayer={handlerNewPlayer} />
+                <button className='openBtn' onClick={SatartGame}>Start</button>
+            </div>
+        }
         </div>
-        <div className = 'topPlayers'>
-            <h3>Top players: {topPlayers.map(player => (player.name + " "))}</h3>
-        </div>
+        
+
+
         <div className='allBoards'>
             {gameBoard}
         </div>

@@ -8,7 +8,7 @@ function CreateGameBoard(props) {
 
     const { CurrentPlayer, updateActivePlayer, updateWinner } = props;
 
-    const Mstyle = CurrentPlayer.active ? { boxShadow: ' rgb(0 166 237) 0.01px 2px 7px' } : { boxShadow: 'none'};
+    const Mstyle = CurrentPlayer.active ? { boxShadow: ' rgb(105 176 234) 0.01px 2px 35px' } : { boxShadow: 'none'};
 
     const Actions = ['-1', '+1', '*2', "/2"];
     const actionButtons = Actions.map((btn, i) =>
