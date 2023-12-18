@@ -1,7 +1,8 @@
 .openBtns {
   background-color: aliceblue;
-    border: 1px #0078d7 solid;
+  border: 1px #0078d7 solid;
   width: 100vw;
+  margin-left: -107px;
 }
 
 .openBtn {
@@ -36,9 +37,10 @@
 }
 
 .TopPlayers {
+  width: 100vw;
+    margin: 0 0 0 -107px;
   border: solid 1px #0078d7;
-    background-color: white;
-  margin: 0px;
+  background-color: white;
 }
 
 .logo {
@@ -46,8 +48,9 @@
   height: 200px;
   padding: 0;
 }
+
 .logoDiv {
-  margin-top: 10px;
-  width: 100%;
+  width: 100vw;
+  margin-left: -107px;
   background-color: #97cdf9;
 }

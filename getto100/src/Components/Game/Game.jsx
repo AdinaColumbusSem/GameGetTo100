@@ -137,9 +137,6 @@ function Game() {
             </div>
         }
         </div>
-        
-
-
         <div className='allBoards'>
             {gameBoard}
         </div>
