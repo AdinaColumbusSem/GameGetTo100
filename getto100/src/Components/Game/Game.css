@@ -1,8 +1,9 @@
+
+
 .openBtns {
   background-color: aliceblue;
   border: 1px #0078d7 solid;
   width: 100vw;
-  margin-left: -107px;
 }
 
 .openBtn {
@@ -29,8 +30,7 @@
 }
 
 .allBoards {
-  width: 90vw;
-  margin-left: -30px;
+  width: 100vw;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -38,7 +38,6 @@
 
 .TopPlayers {
   width: 100vw;
-    margin: 0 0 0 -107px;
   border: solid 1px #0078d7;
   background-color: white;
 }
@@ -51,6 +50,5 @@
 
 .logoDiv {
   width: 100vw;
-  margin-left: -107px;
   background-color: #97cdf9;
 }

@@ -124,6 +124,7 @@ function Game() {
 
     let gameBoard = currentPlayers.map((player, i) =>
         <CreateGameBoard key={i} CurrentPlayer={player} updateActivePlayer={handlerActivePlayer} updateWinner={handlerWinButtons} />)
+
     return (<>
         <div className='logoDiv' >
             <img src={img} className='logo' />
