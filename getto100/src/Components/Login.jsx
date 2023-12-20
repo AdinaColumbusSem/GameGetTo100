@@ -3,13 +3,9 @@ import './Game/Game.css';
 
 function Login(props) {
 
-    const { gameActive , addNewPlayer } = props;
+    const {addNewPlayer } = props;
 
     function AddPlayer() {
-        if (gameActive) {
-            alert("The Game started, can't adding players")
-            return;
-        }
         let playerName = prompt("Please enter your name");
         let playerEmail = prompt("Please enter your email")
         if (playerName == null || playerName == "" || playerEmail == null || playerEmail == "") 

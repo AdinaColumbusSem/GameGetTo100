@@ -133,7 +133,7 @@ function Game() {
         <div className='openBtns'>
         {gameActive ? <button className='openBtn' onClick={()=>history.go(0)}>new game</button> :
             <div>
-                <Login gameActive={gameActive} addNewPlayer={handlerNewPlayer} />
+                <Login addNewPlayer={handlerNewPlayer} />
                 <button className='openBtn' onClick={SatartGame}>Start</button>
             </div>
         }
